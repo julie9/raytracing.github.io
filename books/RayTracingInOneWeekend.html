@@ -2355,8 +2355,8 @@ the parts of the ray that are perpendicular to $\mathbf{n'}$ and parallel to $\m
 
 If we solve for $\mathbf{R'}_{\bot}$ and $\mathbf{R'}_{\parallel}$ we get:
 
-  $$ \mathbf{R'}_{\bot} = \frac{\eta}{\eta'} (\mathbf{R} + \cos\theta \mathbf{n}) $$
-  $$ \mathbf{R'}_{\parallel} = -\sqrt{1 - |\mathbf{R'}_{\bot}|^2} \mathbf{n} $$
+  $$ \mathbf{R'}_{\parallel} = \frac{\eta}{\eta'} (\mathbf{R} + \cos\theta \mathbf{n}) $$
+  $$ \mathbf{R'}_{\bot} = -\sqrt{1 - |\mathbf{R'}_{\parallel}|^2} \mathbf{n} $$
 
 You can go ahead and prove this for yourself if you want, but we will treat it as fact and move on.
 The rest of the book will not require you to understand the proof.
@@ -2372,7 +2372,7 @@ If we restrict $\mathbf{a}$ and $\mathbf{b}$ to be unit vectors:
 
 We can now rewrite $\mathbf{R'}_{\bot}$ in terms of known quantities:
 
-  $$ \mathbf{R'}_{\bot} =
+  $$ \mathbf{R'}_{\parallel} =
      \frac{\eta}{\eta'} (\mathbf{R} + (\mathbf{-R} \cdot \mathbf{n}) \mathbf{n}) $$
 
 When we combine them back together, we can write a function to calculate $\mathbf{R'}$:
@@ -2380,8 +2380,8 @@ When we combine them back together, we can write a function to calculate $\mathb
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ C++
     vec3 refract(const vec3& uv, const vec3& n, double etai_over_etat) {
         auto cos_theta = dot(-uv, n);
-        vec3 r_out_perp =  etai_over_etat * (uv + cos_theta*n);
-        vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
+        vec3 r_out_parallel =  etai_over_etat * (uv + cos_theta*n);
+        vec3 r_out_perp = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
         return r_out_perp + r_out_parallel;
     }
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
